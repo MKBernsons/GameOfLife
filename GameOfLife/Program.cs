@@ -6,7 +6,9 @@ namespace GameOfLife
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var game = new Game(12, 12);
+            game.SelectGameToVisualize();
+            game.StartGame();
         }
     }
 }
