@@ -1,2 +1,2 @@
 # GameOfLife
-## A console aaplication project
+## A console aplication project
