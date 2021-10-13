@@ -12,7 +12,7 @@
 3. Possibility to stop the application at any moment
 
 ### Iteration #3
-1. Possibility to execute 1000 games in parallel
+1. Possibility to execute 1000 games in parallel (it can if I add 4 lines of code but it's not an option just yet)
 2. Possibility to show 8 selected games on screen
 3. Possibility to change which games are shown on screen
 4. Possibility to save all games at once
@@ -21,8 +21,8 @@
 ## Status
 Iteration 1 | Iteration 2 | Iteration 3
 ------------|-------------|------------
-1 not done  |1 not done   |1 not done 
+1 done      |1 not done   |1 not done 
 2 not done  |2 not done   |2 not done 
-3 not done  |3 not done   |3 not done 
+3 done      |3 not done   |3 not done 
 ____________|____________ |4 not done 
 ____________|____________ |5 not done 
