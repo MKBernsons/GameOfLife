@@ -11,6 +11,7 @@ namespace GameOfLife
         private bool[,] gridTemporary;
         private bool isActive = false;
         private int liveCells = 0;
+        private int IterationCount = 0;
         private bool isSelected = false; // if this is true it means that this game should be visible in the console
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace GameOfLife
                 {
                     Visualize();
                     Iterate();
-                    Thread.Sleep(300);
+                    Thread.Sleep(1000);
                 }
             }
             else
@@ -93,6 +94,11 @@ namespace GameOfLife
                 }
                 Console.WriteLine("\n");
             }
+            ShowInfo();
+        }
+        public void ShowInfo()
+        {
+            Console.Write($"Iteration #{IterationCount}, Live cells {liveCells}\n");
         }
 
         public void Iterate()
@@ -134,6 +140,7 @@ namespace GameOfLife
                         }
                     }
                 }
+                IterationCount++;
                 grid = gridTemporary;
             }
             else
