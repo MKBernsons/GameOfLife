@@ -7,33 +7,39 @@ namespace GameOfLife
         static void Main(string[] args)
         {
             Game game;
-            MainMenu();
+            Menu();
 
-            void MainMenu()
+            void Menu()
             {
-                Console.Write("Please input the size of the field 4-1000\n" +
-                              "Width(columns): ");
-                string inputWidth = Console.ReadLine();
-                Console.Write("Height(rows): ");
-                string inputHeight = Console.ReadLine();
+                Console.Write("Choose what to do, input the corresponding number:\n" +
+                              "1 - Start a new game\n" +
+                              "input: ");
+                string input = Console.ReadLine();
 
-                try
+                switch (input)
                 {
-                    int width = Int32.Parse(inputWidth);
-                    int height = Int32.Parse(inputHeight);
-
-                    if(width > 3 && width < 1000 && height > 3 && height < 1000)
-                    {
-                        game = new Game(width, height);
-                        game.SelectGameToVisualize();
-                        game.StartGame();
-                    }                    
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("wrong input");
-                }
-            }            
+                    case "1":
+                        int size = NewGameSize();
+                        if(size > 3 && size < 1000)
+                        {
+                            game = new Game(size);
+                            game.SelectGameToVisualize();
+                            game.StartGame();
+                        }
+                        else
+                            Console.WriteLine("wrong input");
+                        break;
+                    default:
+                        Console.WriteLine("wrong input");
+                        break;
+                }                
+            }
+            int NewGameSize()
+            {
+                Console.Clear();
+                Console.Write("input field size (4-1000): ");
+                return Int32.Parse(Console.ReadLine());
+            }
         }
     }
 }
