@@ -35,7 +35,7 @@ namespace GameOfLife
             {
                 for (int o = 0; o < height; o++)
                 {
-                    if (rand.Next(4) == 1)
+                    if (rand.Next(6) == 1)
                     {
                         grid[i, o] = true;
                         liveCells++;
@@ -61,7 +61,7 @@ namespace GameOfLife
                 {
                     Visualize();
                     Iterate();
-                    Thread.Sleep(1000);
+                    Thread.Sleep(300);
                 }
             }
             else
@@ -72,6 +72,10 @@ namespace GameOfLife
                     Thread.Sleep(1000);
                 }
             }
+        }
+        public void StopGame()
+        {
+            isActive = false;
         }
 
         //Prints the field to the console
@@ -135,9 +139,7 @@ namespace GameOfLife
             else
             {
                 isActive = false;
-                Console.WriteLine($"Live cells {liveCells}\n" +
-                                  $"isActive {isActive}\n" +
-                                  $"isSelected {isSelected}");
+                Console.WriteLine($"Live cells {liveCells}");
             }
         }
 
