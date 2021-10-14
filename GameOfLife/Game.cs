@@ -23,6 +23,12 @@ namespace GameOfLife
             get { return gameId; }
         }
 
+        public int Size { get => size; set => size = value; }
+        public bool[,] Grid { get => grid; set => grid = value; }
+        public bool[,] GridTemporary { get => gridTemporary; set => gridTemporary = value; }
+        public bool IsActive { get => isActive; set => isActive = value; }
+        public bool Visualized { get => visualized; set => visualized = value; }
+
         /// <summary>
         /// Input the size of the grid
         /// </summary>
@@ -157,6 +163,10 @@ namespace GameOfLife
                 }
             }
             return liveNeighbors;
+        }
+        public void AddTotalGameCount()
+        {
+            totalGames++;
         }
     }
 }

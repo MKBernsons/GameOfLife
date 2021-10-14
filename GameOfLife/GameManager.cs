@@ -1,13 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 
 namespace GameOfLife
 {
     public class GameManager
     {
-        public List<Game> games = new List<Game>();
-        List<Thread> threads = new List<Thread>();
+        private List<Game> games = new List<Game>();
+        private List<Thread> threads = new List<Thread>();
+        private string saveLocation = @"C:\Users\mikelis.k.bernsons\source\repos\MKBernsons\GameOfLife\GameOfLife\save.json";
         public void AddGame(int size)
         {
             games.Add(new Game(size));
@@ -58,6 +61,27 @@ namespace GameOfLife
             }
             else
                 Console.WriteLine("there are no games yet");            
+        }
+        public Game GetGameById(int id)
+        {
+            return games[id];
+        }
+        public void SaveOneGame(Game game)
+        {
+            string json = JsonConvert.SerializeObject(game);
+            File.WriteAllText(saveLocation, json);
+        }
+        public void LoadOneGame()
+        {
+            string json = File.ReadAllText(saveLocation);
+            games.Add(JsonConvert.DeserializeObject<Game>(json));
+        }
+        public bool GamesExist()
+        {
+            if (games.Count > 0)
+                return true;
+            else
+                return false;
         }
     }
 }

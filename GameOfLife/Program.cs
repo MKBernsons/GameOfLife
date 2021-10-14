@@ -29,6 +29,8 @@ namespace GameOfLife
                               "1 - Start a new game\n" +
                               "2 - Start a visualized game\n" +
                               "3 - Play an existing game\n" +
+                              "4 - Save one game\n" +
+                              "5 - Load one game\n" +
                               "input: ");
                 string input = Console.ReadLine();
 
@@ -59,6 +61,15 @@ namespace GameOfLife
                     case "3":
                         gamemanager.PlayOneGame(GetExistingGameNumber());
                         stopped = false;
+                        break;
+                    case "4":
+                        if(gamemanager.GamesExist())
+                            gamemanager.SaveOneGame(gamemanager.GetGameById(GetExistingGameNumber()));
+                        else
+                            Console.WriteLine("there are no games yet");
+                        break;
+                    case "5":
+                        gamemanager.LoadOneGame();
                         break;
                     default:
                         Console.WriteLine("wrong input in switch statement");
