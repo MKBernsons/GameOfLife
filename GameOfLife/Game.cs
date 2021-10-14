@@ -3,15 +3,25 @@ using System.Threading;
 
 namespace GameOfLife
 {
-    class Game
+    public class Game
     {
         private int size;
         private bool[,] grid;
         private bool[,] gridTemporary;
-        private bool isActive = false;
-        private int liveCells = 0;
-        private int IterationCount = 0;
-        private bool isSelected = false; // if this is true it means that this game should be visible in the console
+        private bool isActive = true;
+        private int gameId;
+        public int liveCells = 0;
+        public int iterationCount = 1;
+        private bool visualized = false; // if this is true it means that this game should be visible in the console
+        private static int totalGames;
+        public static int TotalGames
+        {
+            get { return totalGames; }
+        }
+        public int GameId
+        {
+            get { return gameId; }
+        }
 
         /// <summary>
         /// Input the size of the grid
@@ -19,6 +29,8 @@ namespace GameOfLife
         /// <param name="size">size of the grid</param>
         public Game(int size)
         {
+            gameId = totalGames;
+            totalGames++;
             this.size = size;
             grid = new bool[size, size];
             gridTemporary = new bool[size, size];
@@ -43,68 +55,56 @@ namespace GameOfLife
                 }
             }
         }
-        public void SelectGameToVisualize()
+        public void SelectToVisualize()
         {
-            isSelected = true;
+            visualized = true;
         }
-        public void StartGame()
+        public void StopVisualizing()
         {
-            isActive = true;
-            if (isSelected)
+            visualized = false;
+        }
+
+        public void PlayGame()
+        {
+            while (isActive && iterationCount < 200)
             {
-                while (isActive)
+                if (liveCells <= 0)
+                    GameLost();
+                if(visualized)
                 {
-                    Visualize();
-                    Iterate();
-                    Thread.Sleep(1000);
+                    Console.Clear();
+                    Visualizer.Visualize(grid, size);
+                    Visualizer.ShowInfo(iterationCount, liveCells, gameId);
                 }
-            }
-            else
-            {
-                while (isActive)
-                {
-                    Iterate();
-                    Thread.Sleep(1000);
-                }
+                Iterate();
+                Thread.Sleep(1000);
             }
         }
-        public void StopGame()
+        public void Stop()
         {
             isActive = false;
         }
-        //Prints the field to the console
-        public void Visualize()
+        public void Activate()
         {
-            Console.Clear();
-            for (int i = 0; i < size; i++)
-            {
-                for (int o = 0; o < size; o++)
-                {
-                    if(grid[i, o] == true)
-                        Console.Write("   X");//live cell
-                    else
-                        Console.Write("    ");//dead cell
-                }
-                Console.WriteLine("\n");
-            }
-            ShowInfo();
+            isActive = true;
         }
-        public void ShowInfo()
+        private void GameLost()
         {
-            Console.Write($"Iteration #{IterationCount}, Live cells {liveCells}\n");
+            isActive = false;
+            Console.WriteLine("All cells dead");
         }
-        public void Iterate()
+        private void Iterate()
         {
-            if (liveCells > 0)
+            if (liveCells > 0 && iterationCount <= 200)
             {
                 for (int i = 0; i < size; i++)
                 {
                     for (int o = 0; o < size; o++)
                     {
                         byte liveNeighbors = CountLiveNeighbors(i, o);
-                        if(grid[i, o] == true) // if the current cell is alive
+                        if (grid[i, o] == true) // if the current cell is alive
                         {
-                            if(liveNeighbors < 2 || liveNeighbors > 3)// cell dies
+                            if (liveNeighbors < 2 || liveNeighbors > 3)// cell dies
                             {
                                 gridTemporary[i, o] = false;
                                 liveCells--;
@@ -112,7 +112,7 @@ namespace GameOfLife
                             else// cell lives
                             {
                                 gridTemporary[i, o] = true;
-                            }                            
+                            }
                         }
                         else// if the current cell is dead
                         {
@@ -126,17 +126,16 @@ namespace GameOfLife
                         }
                     }
                 }
-                IterationCount++;
+                iterationCount++;
                 grid = gridTemporary;
             }
             else
             {
-                isActive = false;
-                Console.WriteLine("All cells dead");
+                GameLost();
             }
         }
         // returns the count of live neighbors
-        public byte CountLiveNeighbors(int width, int height)
+        private byte CountLiveNeighbors(int width, int height)
         {
             byte liveNeighbors = 0;
             //2 for loops go trough a 3x3 area surrounding the given cell
@@ -145,7 +144,7 @@ namespace GameOfLife
                 for (int y = height - 1; y < height + 2; y++)
                 {
                     //checks if it is within the array borders
-                    if((x >= 0 && y >= 0) && (x < this.size && y < this.size))
+                    if ((x >= 0 && y >= 0) && (x < size && y < size))
                     {
                         if (x == width && y == height)//checks if it is attempting to count itself
                             continue;
@@ -153,7 +152,7 @@ namespace GameOfLife
                         {
                             if (grid[x, y] == true)
                                 liveNeighbors++;
-                        }                          
+                        }
                     }
                 }
             }
