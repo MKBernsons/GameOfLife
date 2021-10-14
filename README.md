@@ -22,7 +22,12 @@
 Iteration 1 | Iteration 2 | Iteration 3
 ------------|-------------|------------
 1 done      |1 done       |1 not done 
-2 done      |2 not done   |2 not done 
+2 done      |2 done       |2 not done 
 3 done      |3 done       |3 done      
 ____________|____________ |4 not done 
 ____________|____________ |5 not done 
+
+### Additional things to do (a reminder)
+1. Redo the menu system
+2. clean up everything (Du uh)
+3. configure gitignore
