@@ -32,7 +32,7 @@ namespace GameOfLife
                               "4 - Save one game\n" +
                               "5 - Load one game\n" +
                               "6 - Play all games at once\n" +
-                              "7 - Create 1000 games with size 12\n" +
+                              "7 - Create up to 1000 games with size 12\n" +
                               "8 - Save all games\n" +
                               "9 - Load all games\n" +
                               "input: ");

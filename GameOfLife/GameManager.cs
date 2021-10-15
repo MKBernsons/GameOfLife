@@ -123,6 +123,7 @@ namespace GameOfLife
         public void LoadAllGames()
         {
             games.Clear();
+            Game.TotalGames = 0;
             string[] files = Directory.GetFiles(allGameSave);
             foreach (string file in files)
             {
