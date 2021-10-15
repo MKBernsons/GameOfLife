@@ -31,3 +31,5 @@ ____________|____________ |5 done
 1. Redo the menu system
 2. clean up everything (Du uh)
 3. configure gitignore
+4. maybe - delete all previous files when saving multiple games
+5. Think about making the visualizer and gamemanager classes static and move the saving funcionality into a seperate class
