@@ -22,7 +22,7 @@
 Iteration 1 | Iteration 2 | Iteration 3
 ------------|-------------|------------
 1 done      |1 done       |1 done      
-2 done      |2 done       |2 not done 
+2 done      |2 done       |2 done      
 3 done      |3 done       |3 done      
 ____________|____________ |4 done      
 ____________|____________ |5 done      
