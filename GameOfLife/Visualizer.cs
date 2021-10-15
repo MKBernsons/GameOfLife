@@ -8,24 +8,24 @@ namespace GameOfLife
 {
     public class Visualizer
     {
-        public static void Visualize(bool[,] grid, int size)
+        public static void Visualize(bool[,] grid, int size, int id, int cells, int iterations)
         {
+            string printableGrid = "";
+
             for (int i = 0; i < size; i++)
             {
                 for (int o = 0; o < size; o++)
                 {
                     if (grid[i, o] == true)
-                        Console.Write("   X");//live cell
+                        printableGrid += " X";//live cell
                     else
-                        Console.Write("    ");//dead cell
+                        printableGrid += "  ";//dead cell
                 }
-                Console.WriteLine("\n");
+                printableGrid += "\n";
             }
-        }
-
-        public static void ShowInfo(int iterations, int cells, int id)
-        {
-            Console.Write($"Id: {id}, Iteration #{iterations}, Live cells {cells}\n");
+            printableGrid += $"^ Id: {id}, Iteration #{iterations}, Live cells {cells} ^\n" +
+                             $"-----------------------------------------------\n";
+            Console.WriteLine(printableGrid);
         }
     }
 }

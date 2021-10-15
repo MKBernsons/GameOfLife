@@ -95,9 +95,7 @@ namespace GameOfLife
                     
                 if(visualized)
                 {
-                    Console.Clear();
-                    Visualizer.Visualize(grid, size);
-                    Visualizer.ShowInfo(IterationCount, LiveCells, gameId);
+                    Visualizer.Visualize(grid, size, gameId, LiveCells, IterationCount);
                 }
                 Iterate();
                 Thread.Sleep(1000);

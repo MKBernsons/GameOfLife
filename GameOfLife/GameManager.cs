@@ -35,18 +35,22 @@ namespace GameOfLife
             games[games.Count - 1].StartVisualizing();
             return games.Count - 1;
         }
-        
-        public void PlayAllGames()
-        {            
+
+        public void PlayAllGames(bool enabledStats = true)
+        {
             for (int i = 0; i < games.Count; i++)
             {
                 games[i].Activate();
                 threads.Add(new Thread(games[i].PlayGame));
                 threads[threads.Count - 1].Start();
             }
-            liveStats = true;
-            threads.Add(new Thread(LiveAllGameStatistics));
-            threads[threads.Count - 1].Start();
+
+            if (enabledStats)
+            {
+                liveStats = true;
+                threads.Add(new Thread(LiveAllGameStatistics));
+                threads[threads.Count - 1].Start();
+            }
         }
         
         public void PlayOneGame(int gameId, bool visualize = false)
@@ -156,6 +160,15 @@ namespace GameOfLife
                                   $"total live cells:   {Game.TotalLiveCells}");
                 Thread.Sleep(1000);
             }
+        }
+
+        public void PlayAllGamesAndVisualizeSome(int[] games)
+        {
+            foreach (int id in games)
+            {
+                this.games[id].StartVisualizing();
+            }
+            PlayAllGames(false);
         }
     }
 }

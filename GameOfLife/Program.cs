@@ -31,10 +31,11 @@ namespace GameOfLife
                               "3 - Play an existing game\n" +
                               "4 - Save one game\n" +
                               "5 - Load one game\n" +
-                              "6 - Play all games at once\n" +
+                              "6 - Play all games at once in the background\n" +
                               "7 - Create up to 1000 games with size 12\n" +
                               "8 - Save all games\n" +
                               "9 - Load all games\n" +
+                              "10 - Choose multiple games to display and run the rest in the background\n" +
                               "input: ");
                 string input = Console.ReadLine();
 
@@ -78,13 +79,19 @@ namespace GameOfLife
                         gamemanager.PlayAllGames();
                         break;
                     case "7":
-                        gamemanager.AddAmountOfGames(AmountOfGames());
+                        gamemanager.AddAmountOfGames(AmountOfGamesToCreate());
                         break;
                     case "8":
                         gamemanager.SaveAllGames();
                         break;
                     case "9":
                         gamemanager.LoadAllGames();
+                        break;
+                    case "10":
+                        stopped = false;
+                        int[] games = new int[NumberOfGamesToShow()];
+                        games = GetExistingGameNumberArray(games.Length);
+                        gamemanager.PlayAllGamesAndVisualizeSome(games);
                         break;
                     default:
                         Console.WriteLine("wrong input in switch statement");
@@ -106,7 +113,7 @@ namespace GameOfLife
                 }
             }
 
-            int AmountOfGames()
+            int AmountOfGamesToCreate()
             {
                 Console.Clear();
                 Console.Write("input 1 - 1000 amount of games to create, wrong input defaults to 1 game\n" +
@@ -125,11 +132,30 @@ namespace GameOfLife
                 }
             }
 
+            int NumberOfGamesToShow()
+            {
+                Console.Clear();
+                Console.Write("input 1 - 20 games to show, wrong input defaults to 1 game\n" +
+                              "input: ");
+                try
+                {
+                    int input = Int32.Parse(Console.ReadLine());
+                    if (input > 0 && input <= 20)
+                        return input;
+                    else
+                        throw new Exception();
+                }
+                catch (Exception)
+                {
+                    return 1;
+                }
+            }
+
             int GetExistingGameNumber()
             {
-                Console.WriteLine("input id: ");
                 int input = -1;
                 gamemanager.ShowAllGames();
+                Console.Write("input id: ");
                 try
                 {
                     input = Int32.Parse(Console.ReadLine());
@@ -139,6 +165,18 @@ namespace GameOfLife
                     Console.WriteLine("wrong input");
                 }
                 return input;
+            }
+
+            int[] GetExistingGameNumberArray(int size)
+            {
+                int[] ids = new int[size];
+
+                for (int i = 0; i < size; i++)
+                {
+                    ids[i] = GetExistingGameNumber();
+                }
+
+                return ids;
             }
         }
     }
