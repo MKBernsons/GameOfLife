@@ -11,8 +11,9 @@ namespace GameOfLife
         private static bool liveStats = false;
         private List<Game> games = new List<Game>();
         private List<Thread> threads = new List<Thread>();
-        private string saveLocation = @"C:\Users\mikelis.k.bernsons\source\repos\MKBernsons\GameOfLife\GameOfLife\save.json";
-        
+        private string oneGameSave = @"C:\Users\mikelis.k.bernsons\source\repos\MKBernsons\GameOfLife\GameOfLife\OneSave.json";
+        private string allGameSave = @"C:\Users\mikelis.k.bernsons\source\repos\MKBernsons\GameOfLife\GameOfLife\saves\";
+
         public int AddGame(int size)
         {
             games.Add(new Game(size));
@@ -100,15 +101,36 @@ namespace GameOfLife
         public void SaveOneGame(Game game)
         {
             string json = JsonConvert.SerializeObject(game);
-            File.WriteAllText(saveLocation, json);
+            File.WriteAllText(oneGameSave, json);
         }
         
         public void LoadOneGame()
         {
-            string json = File.ReadAllText(saveLocation);
+            string json = File.ReadAllText(oneGameSave);
             games.Add(JsonConvert.DeserializeObject<Game>(json));
         }
+
+        public void SaveAllGames()
+        {
+            for(int i = 0; i < games.Count; i++)
+            {
+                string json = JsonConvert.SerializeObject(games[i]);
+                File.WriteAllText(allGameSave + $"game{i}.json", json);
+            }
+            Console.WriteLine("Saved all games");
+        }
         
+        public void LoadAllGames()
+        {
+            games.Clear();
+            string[] files = Directory.GetFiles(allGameSave);
+            foreach (string file in files)
+            {
+                string json = File.ReadAllText(file);
+                games.Add(JsonConvert.DeserializeObject<Game>(json));
+            }
+            Console.WriteLine("Loaded all games");
+        }
         public bool GamesExist()
         {
             if (games.Count > 0)
