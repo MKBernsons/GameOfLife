@@ -10,24 +10,33 @@ namespace GameOfLife
         private bool[,] gridTemporary;
         private bool isActive = true;
         private int gameId;
-        public int liveCells = 0;
-        public int iterationCount = 1;
+        private int liveCells = 0;
+        private int iterationCount = 1;
         private bool visualized = false; // if this is true it means that this game should be visible in the console
-        private static int totalGames;
+        private static int totalLiveCells = 0;
+        private static int totalGames = 0;
+
+        public static int TotalLiveCells
+        {
+            get { return totalLiveCells; }
+            set { totalLiveCells = value; }
+        }
         public static int TotalGames
         {
             get { return totalGames; }
+            set { totalGames = value; }
         }
         public int GameId
         {
             get { return gameId; }
         }
-
         public int Size { get => size; set => size = value; }
         public bool[,] Grid { get => grid; set => grid = value; }
         public bool[,] GridTemporary { get => gridTemporary; set => gridTemporary = value; }
         public bool IsActive { get => isActive; set => isActive = value; }
         public bool Visualized { get => visualized; set => visualized = value; }
+        public int LiveCells { get => liveCells; set => liveCells = value; }
+        public int IterationCount { get => iterationCount; set => iterationCount = value; }
 
         /// <summary>
         /// Input the size of the grid
@@ -53,7 +62,8 @@ namespace GameOfLife
                     if (rand.Next(6) == 1)
                     {
                         grid[i, o] = true;
-                        liveCells++;
+                        LiveCells++;
+                        totalLiveCells++;
                     }
                     else
                         grid[i, o] = false;
@@ -61,10 +71,12 @@ namespace GameOfLife
                 }
             }
         }
-        public void SelectToVisualize()
+
+        public void StartVisualizing()
         {
             visualized = true;
         }
+
         public void StopVisualizing()
         {
             visualized = false;
@@ -72,36 +84,49 @@ namespace GameOfLife
 
         public void PlayGame()
         {
-            while (isActive && iterationCount < 200)
+            bool lost = false;
+            while (isActive && IterationCount <= 200)
             {
-                if (liveCells <= 0)
-                    GameLost();
+                if (LiveCells <= 0)
+                {
+                    IsActive = false;
+                    lost = true;
+                }
+                    
                 if(visualized)
                 {
                     Console.Clear();
                     Visualizer.Visualize(grid, size);
-                    Visualizer.ShowInfo(iterationCount, liveCells, gameId);
+                    Visualizer.ShowInfo(IterationCount, LiveCells, gameId);
                 }
                 Iterate();
                 Thread.Sleep(1000);
             }
+            if (lost)
+                GameLost();
+            else
+                Stop();
         }
+
         public void Stop()
         {
             isActive = false;
         }
+
         public void Activate()
         {
             isActive = true;
         }
+
         private void GameLost()
         {
-            isActive = false;
-            Console.WriteLine("All cells dead");
+            Stop();
+            Console.WriteLine("All cells died");
         }
+
         private void Iterate()
         {
-            if (liveCells > 0 && iterationCount <= 200)
+            if (LiveCells > 0 && IterationCount <= 200)
             {
                 for (int i = 0; i < size; i++)
                 {
@@ -113,7 +138,8 @@ namespace GameOfLife
                             if (liveNeighbors < 2 || liveNeighbors > 3)// cell dies
                             {
                                 gridTemporary[i, o] = false;
-                                liveCells--;
+                                LiveCells--;
+                                totalLiveCells--;
                             }
                             else// cell lives
                             {
@@ -125,22 +151,19 @@ namespace GameOfLife
                             if (liveNeighbors == 3)//cell repopulates
                             {
                                 gridTemporary[i, o] = true;
-                                liveCells++;
+                                LiveCells++;
+                                totalLiveCells++;
                             }
                             else// cell stays dead
                                 gridTemporary[i, o] = false;
                         }
                     }
                 }
-                iterationCount++;
+                IterationCount++;
                 grid = gridTemporary;
             }
-            else
-            {
-                GameLost();
-            }
         }
-        // returns the count of live neighbors
+
         private byte CountLiveNeighbors(int width, int height)
         {
             byte liveNeighbors = 0;
@@ -163,10 +186,6 @@ namespace GameOfLife
                 }
             }
             return liveNeighbors;
-        }
-        public void AddTotalGameCount()
-        {
-            totalGames++;
         }
     }
 }

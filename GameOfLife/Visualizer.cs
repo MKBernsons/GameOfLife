@@ -22,6 +22,7 @@ namespace GameOfLife
                 Console.WriteLine("\n");
             }
         }
+
         public static void ShowInfo(int iterations, int cells, int id)
         {
             Console.Write($"Id: {id}, Iteration #{iterations}, Live cells {cells}\n");
