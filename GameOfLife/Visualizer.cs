@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameOfLife
 {
@@ -23,7 +19,7 @@ namespace GameOfLife
                 }
                 printableGrid += "\n";
             }
-            printableGrid += $"^ Id: {id}, Iteration #{iterations}, Live cells {cells} ^\n" +
+            printableGrid += $"\n^ Id: {id}, Iteration #{iterations}, Live cells {cells} ^\n" +
                              $"-----------------------------------------------\n";
             Console.WriteLine(printableGrid);
         }

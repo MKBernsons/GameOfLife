@@ -53,7 +53,7 @@ namespace GameOfLife
         }
 
         private void GenerateGrid()
-        {            
+        {
             var rand = new Random();
             for (int i = 0; i < size; i++)
             {
@@ -92,7 +92,7 @@ namespace GameOfLife
                     IsActive = false;
                     lost = true;
                 }
-                    
+
                 if(visualized)
                 {
                     Visualizer.Visualize(grid, size, gameId, LiveCells, IterationCount);
@@ -119,7 +119,7 @@ namespace GameOfLife
         private void GameLost()
         {
             Stop();
-            Console.WriteLine("All cells died");
+            Console.WriteLine($"All cells died in game #{gameId}");
         }
 
         private void Iterate()
