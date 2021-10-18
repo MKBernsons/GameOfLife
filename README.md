@@ -28,8 +28,8 @@ ____________|____________ |4 done
 ____________|____________ |5 done      
 
 ### Additional things to do (a reminder)
-1. Redo the menu system
-2. clean up everything (Du uh)
-3. configure gitignore
-4. maybe - delete all previous files when saving multiple games
-5. Think about making the visualizer and gamemanager classes static and move the saving funcionality into a seperate class
+1. Redo the menu system -> Moved it to a seperate static User class and now the whole game can be started with a single "Start();" (you have to set using static User...)
+2. clean up everything (Du uh) -> slowly but surely
+3. configure gitignore -> ignore the saved games
+4. maybe - delete all previous files when saving multiple games -> implemented so that if you play a thousand games and you save twice you dont get 2000 games saved...
+5. Think about making the visualizer and gamemanager classes static and move the saving funcionality into a seperate class -> for now changed the gamemanager class to static
