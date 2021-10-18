@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 
 namespace GameOfLife
@@ -9,15 +7,19 @@ namespace GameOfLife
     public static class GameManager
     {
         private static bool liveStats = false;
-        private static List<Game> games = new List<Game>();
-        private static List<Thread> threads = new List<Thread>();
-        private static string oneGameSave = @"C:\Users\mikel\source\repos\GameOfLife\GameOfLife\OneSave.json";
-        private static string allGameSave = @"C:\Users\mikel\source\repos\GameOfLife\GameOfLife\saves\";
+        private static List<Game> games = new();
+        private static List<Thread> threads = new();
+        public static List<Game> Games { get => games; set => games = value; }
 
         public static int AddGame(int size)
         {
             games.Add(new Game(size));
             return games.Count - 1;
+        }
+
+        public static void AddGameObject(Game game)
+        {
+            games.Add(game);
         }
         public static void AddAmountOfGames(int amount)
         {
@@ -104,73 +106,6 @@ namespace GameOfLife
             return games[id];
         }
 
-        public static void SaveOneGame(Game game)
-        {
-            string json = JsonConvert.SerializeObject(game);
-            File.WriteAllText(oneGameSave, json);
-        }
-
-        public static void LoadOneGame()
-        {
-            try
-            {
-                string json = File.ReadAllText(oneGameSave);
-                games.Add(JsonConvert.DeserializeObject<Game>(json));
-            }
-            catch (Exception)
-            {
-
-                throw new Exception("Load file error, the file probably does not exist");
-            }
-        }
-
-        public static void SaveAllGames()
-        {
-            Directory.CreateDirectory(allGameSave);// creates the folder if it doesn't exist
-            foreach (FileInfo file in new DirectoryInfo(allGameSave).GetFiles())//deletes all previous save files
-            {
-                file.Delete();
-            }
-
-            try
-            {
-                for (int i = 0; i < games.Count; i++)
-                {
-                    string json = JsonConvert.SerializeObject(games[i]);
-                    File.WriteAllText(allGameSave + $"game{i}.json", json);
-                }
-                Console.WriteLine("Saved all existing games");
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Save all games failed");
-                throw new Exception();
-            }
-        }
-
-        public static void LoadAllGames()
-        {
-            Directory.CreateDirectory(allGameSave);
-            games.Clear();
-            Game.TotalGames = 0;
-            try
-            {
-                string[] files = Directory.GetFiles(allGameSave);
-                foreach (string file in files)
-                {
-                    if(Path.GetExtension(file) == ".json")// checks if the file extension is .json
-                    {
-                        string json = File.ReadAllText(file);
-                        games.Add(JsonConvert.DeserializeObject<Game>(json));
-                    }
-                }
-                Console.WriteLine("Loaded all saved games");
-            }
-            catch (Exception)
-            {
-                throw new Exception("Load all games failed");
-            }
-        }
         public static bool GamesExist()
         {
             if (games.Count > 0)

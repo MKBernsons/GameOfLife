@@ -1,5 +1,6 @@
 ﻿using System;
 using static GameOfLife.GameManager;
+using static GameOfLife.SaveManager;
 
 namespace GameOfLife
 {
@@ -9,6 +10,7 @@ namespace GameOfLife
 
         public static void Start()
         {
+            SetupSaveManager();
             while (true)
             {
                 if (stopped)
@@ -26,7 +28,7 @@ namespace GameOfLife
 
         private static void Menu()
         {
-            Console.Write("Choose what to do, input the corresponding number:\n" +
+            Console.Write("\nChoose what to do, input the corresponding number:\n" +
                           "1 - Start a new game\n" +
                           "2 - Start a new visualized game\n" +
                           "3 - Play an existing game\n" +
