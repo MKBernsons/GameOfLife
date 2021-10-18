@@ -199,7 +199,7 @@ namespace GameOfLife
 
         public static void PlayAllGamesAndVisualizeSome(int[] gamesToPlay)
         {
-            if(gamesToPlay.Length >= games.Count && games.Count > 0)
+            if(gamesToPlay.Length <= games.Count && games.Count > 0)
             {
                 foreach (int id in gamesToPlay)
                 {
