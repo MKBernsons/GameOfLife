@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static GameOfLife.GameManager;
 
 namespace GameOfLife
@@ -27,19 +23,21 @@ namespace GameOfLife
                 }
             }
         }
+
         private static void Menu()
         {
             Console.Write("Choose what to do, input the corresponding number:\n" +
                           "1 - Start a new game\n" +
                           "2 - Start a new visualized game\n" +
                           "3 - Play an existing game\n" +
-                          "4 - Save one game\n" +
-                          "5 - Load one game\n" +
-                          "6 - Play all games at once in the background\n" +
-                          "7 - Create up to 1000 games with size 12\n" +
-                          "8 - Save all games\n" +
-                          "9 - Load all games\n" +
-                          "10 - Choose multiple games to display and run the rest in the background\n" +
+                          "4 - Play an existing game visualized\n" +
+                          "5 - Save one game\n" +
+                          "6 - Load one game\n" +
+                          "7 - Play all games at once in the background\n" +
+                          "8 - Create up to 1000 games with size 12\n" +
+                          "9 - Save all games\n" +
+                          "10 - Load all games\n" +
+                          "11 - Choose multiple games to display and run the rest in the background\n" +
                           "input: ");
             string input = Console.ReadLine();
 
@@ -71,28 +69,32 @@ namespace GameOfLife
                     stopped = false;
                     break;
                 case "4":
+                    PlayOneGame(GetExistingGameNumber(), true);
+                    stopped = false;
+                    break;
+                case "5":
                     if (GamesExist())// checks if there are more than 0 games created
                         SaveOneGame(GetGameById(GetExistingGameNumber()));
                     else
                         Console.WriteLine("there are no games yet");
                     break;
-                case "5":
+                case "6":
                     LoadOneGame();
                     break;
-                case "6":
+                case "7":
                     stopped = false;
                     PlayAllGames();
                     break;
-                case "7":
+                case "8":
                     AddAmountOfGames(AmountOfGamesToCreate());
                     break;
-                case "8":
+                case "9":
                     SaveAllGames();
                     break;
-                case "9":
+                case "10":
                     LoadAllGames();
                     break;
-                case "10":
+                case "11":
                     stopped = false;
                     int[] games = new int[NumberOfGamesToShow()];
                     games = GetExistingGameNumberArray(games.Length);
